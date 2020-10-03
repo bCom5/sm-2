@@ -6,7 +6,7 @@ def import_items(file_path):
 	return json.loads(open(file_path).read())
 
 def export_items(items, file_path):
-	open(file_path, "wb").write(json.dumps(items))
+	open(file_path, "w").write(json.dumps(items, indent=4))
 	return True
 
 def get_next_i_interval(item, reset=False):
@@ -31,8 +31,8 @@ def get_quality_of_repetition():
 			"1 - incorrect response; the correct one remembered\n" + \
 			"0 - complete blackout.\n\n"
 	while (1):
-		q = raw_input(prompt)
-		if int(q):
+		q = input(prompt)
+		if int(q) or int(q) == 0:
 			return int(q)
 
 def change_e_factor(item, q):
@@ -57,8 +57,8 @@ def main(argv):
 	export_items(items, file_path)
 	for k in items.keys():
 		item = items[k]
-		user_input = raw_input("Question: " + item["question"] +"\nInput your answer: ")
-		print "Correct answer: %s \n" % ( item["answer"] )
+		user_input = input("Question: " + item["question"] +"\nInput your answer: ")
+		print("Correct answer: %s \n" % ( item["answer"] ))
 		q = get_quality_of_repetition()
 		item = change_e_factor(item, q)
 		item = get_next_i_interval(item)
